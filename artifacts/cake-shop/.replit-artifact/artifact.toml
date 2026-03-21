@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Sweet Cakes - Premium Bakery"
+version = "1.0.0"
+id = "artifacts/cake-shop"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25078
+
+[services.development]
+run = "pnpm --filter @workspace/cake-shop run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cake-shop", "run", "build" ]
+publicDir = "artifacts/cake-shop/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25078"
+BASE_PATH = "/"

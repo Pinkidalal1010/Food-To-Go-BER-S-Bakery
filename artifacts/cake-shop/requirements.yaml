@@ -1,0 +1,20 @@
+packages:
+  "framer-motion": "For smooth page transitions and beautiful scroll reveal animations"
+  "react-hook-form": "For form state management in checkout and auth"
+  "@hookform/resolvers": "For zod validation integration with react-hook-form"
+
+images:
+  - path: "artifacts/cake-shop/public/images/logo.png"
+    description: "Minimal elegant typography logo for a premium bakery named 'Sweet Cakes', warm rose gold text on transparent background, upscale branding"
+    aspect_ratio: "16:9"
+  - path: "artifacts/cake-shop/public/images/hero-bg.png"
+    description: "Abstract soft pastel pink and cream textured background, elegant fluid brush strokes, high-end bakery atmosphere"
+    aspect_ratio: "16:9"
+  - path: "artifacts/cake-shop/public/images/pattern-bg.png"
+    description: "Subtle elegant floral damask seamless pattern background in light cream, very low contrast, luxurious"
+    aspect_ratio: "16:9"
+
+notes:
+  - Assumes CartContext handles local state merging with server state, but relies on API hooks primarily for authenticated users
+  - Assuming the API endpoints are standard REST and will return errors if not implemented on backend
+  - Wouter is used for routing
