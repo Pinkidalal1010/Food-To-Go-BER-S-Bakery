@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { Product, CartItem } from "@workspace/api-client-react/src/generated/api.schemas";
+import type { Product, CartItem } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface CartContextType {

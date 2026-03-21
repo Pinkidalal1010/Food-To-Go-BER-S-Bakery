@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Star, ShoppingCart } from "lucide-react";
-import { Product } from "@workspace/api-client-react/src/generated/api.schemas";
+import type { Product } from "@workspace/api-client-react";
 import { useCart } from "@/contexts/CartContext";
 
 export function ProductCard({ product }: { product: Product }) {

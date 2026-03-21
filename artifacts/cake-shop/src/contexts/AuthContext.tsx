@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { User, LoginRequest, RegisterRequest } from "@workspace/api-client-react/src/generated/api.schemas";
+import type { User, LoginRequest, RegisterRequest } from "@workspace/api-client-react";
 import { useLoginUser, useRegisterUser, useGetCurrentUser } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
