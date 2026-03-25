@@ -18,7 +18,7 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState(params.get("search") || "");
   const [category, setCategory] = useState(params.get("category") || "all");
   const [sortBy, setSortBy] = useState(params.get("sortBy") || "newest");
-  const [priceRange, setPriceRange] = useState([0, 200]);
+  const [priceRange, setPriceRange] = useState([0, 70]);
 
   // Construct query params
   const queryParams: any = {};
@@ -29,7 +29,13 @@ export default function Products() {
 
   const { data: products, isLoading, isError } = useListProducts(queryParams);
 
-  const categories = ["all", "wedding", "birthday", "cupcakes", "chocolate", "custom"];
+  const categories = [
+    { id: "all", label: "All Products" },
+    { id: "cakes", label: "Cakes" },
+    { id: "bread", label: "Bread" },
+    { id: "birthday", label: "Birthday Cakes" },
+    { id: "eclairs", label: "Eclairs & Pastries" },
+  ];
 
   const FilterSidebar = () => (
     <div className="space-y-8">
@@ -37,16 +43,16 @@ export default function Products() {
         <h3 className="font-semibold text-lg mb-4 flex items-center gap-2"><Filter size={18} /> Categories</h3>
         <div className="space-y-2">
           {categories.map(cat => (
-            <label key={cat} className="flex items-center gap-3 cursor-pointer group">
-              <input 
-                type="radio" 
-                name="category" 
-                checked={category === cat}
-                onChange={() => setCategory(cat)}
+            <label key={cat.id} className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="radio"
+                name="category"
+                checked={category === cat.id}
+                onChange={() => setCategory(cat.id)}
                 className="w-4 h-4 text-primary focus:ring-primary border-border"
               />
-              <span className={`capitalize ${category === cat ? "text-primary font-medium" : "text-muted-foreground group-hover:text-foreground transition-colors"}`}>
-                {cat}
+              <span className={`${category === cat.id ? "text-primary font-medium" : "text-muted-foreground group-hover:text-foreground transition-colors"}`}>
+                {cat.label}
               </span>
             </label>
           ))}
