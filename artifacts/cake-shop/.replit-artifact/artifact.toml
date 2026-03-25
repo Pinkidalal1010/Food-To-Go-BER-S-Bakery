@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Sweet Cakes - Premium Bakery"
+title = "Food 2 Go - Ber's Bakery"
 version = "1.0.0"
 id = "artifacts/cake-shop"
 router = "path"
