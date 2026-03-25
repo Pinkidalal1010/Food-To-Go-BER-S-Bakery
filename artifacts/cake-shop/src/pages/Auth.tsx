@@ -67,18 +67,16 @@ export default function Auth() {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="flex justify-center mb-6">
-          <img 
-            src={`${import.meta.env.BASE_URL}images/logo.png`} 
-            alt="Sweet Cakes" 
-            className="h-16 object-contain"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><text y="20" font-family="serif" font-size="20">Sweet Cakes</text></svg>';
-            }}
+          <img
+            src={`${import.meta.env.BASE_URL}images/food2go-logo.jpeg`}
+            alt="Food 2 Go - Ber's Bakery"
+            className="h-20 object-contain"
           />
         </div>
-        <h2 className="font-display text-center text-3xl font-bold tracking-tight text-foreground mb-8">
-          Welcome to Sweet Cakes
+        <h2 className="text-center text-2xl font-bold tracking-tight text-foreground mb-2">
+          Welcome to Ber's Bakery
         </h2>
+        <p className="text-center text-sm text-muted-foreground mb-6">Freshly Made In Store</p>
 
         <div className="bg-card py-8 px-4 shadow-xl shadow-black/5 sm:rounded-3xl sm:px-10 border border-border/50">
           <Tabs defaultValue="login" className="w-full">

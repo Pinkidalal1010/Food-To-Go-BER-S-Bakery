@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem("token", response.token);
       setToken(response.token);
       await refetch();
-      toast({ title: "Welcome to Sweet Cakes!", description: "Your account has been created." });
+      toast({ title: "Welcome to Ber's Bakery!", description: "Your account has been created." });
     } catch (error: any) {
       toast({ 
         variant: "destructive", 

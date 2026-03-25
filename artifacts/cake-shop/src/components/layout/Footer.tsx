@@ -15,9 +15,15 @@ export default function Footer() {
           
           {/* Brand */}
           <div className="space-y-6">
-            <h3 className="font-display text-3xl text-primary-foreground tracking-wide">Sweet Cakes</h3>
+            <div className="mb-2">
+              <img
+                src={`${import.meta.env.BASE_URL}images/food2go-logo.jpeg`}
+                alt="Food 2 Go - Ber's Bakery"
+                className="h-16 object-contain brightness-0 invert opacity-90"
+              />
+            </div>
             <p className="text-background/70 leading-relaxed font-light">
-              Crafting unforgettable moments through artisanal, hand-crafted cakes made with premium ingredients and boundless love.
+              Freshly baked every morning with the finest ingredients. Handcrafted cakes, breads and pastries made with love in store.
             </p>
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors hover:-translate-y-1 duration-300">
@@ -43,7 +49,17 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/products" className="text-background/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50" /> Our Cakes
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50" /> All Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/products?category=bread" className="text-background/70 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50" /> Fresh Bread
+                </Link>
+              </li>
+              <li>
+                <Link href="/products?category=birthday" className="text-background/70 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50" /> Birthday Cakes
                 </Link>
               </li>
               <li>
@@ -60,15 +76,15 @@ export default function Footer() {
             <ul className="space-y-4 text-background/70 font-light">
               <li className="flex items-start gap-3">
                 <MapPin className="text-primary mt-1 flex-shrink-0" size={18} />
-                <span>123 Baker Street, Pastry District<br />New York, NY 10001</span>
+                <span>Ber's Bakery, Food 2 Go<br />Freshly Made In Store</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="text-primary flex-shrink-0" size={18} />
-                <span>+1 (555) 123-CAKE</span>
+                <span>+353 (0) 1 234 5678</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-primary flex-shrink-0" size={18} />
-                <span>hello@sweetcakes.com</span>
+                <span>hello@food2gobakery.ie</span>
               </li>
             </ul>
           </div>
@@ -94,7 +110,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-background/10 text-center text-background/50 text-sm font-light flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>&copy; {new Date().getFullYear()} Sweet Cakes Premium Bakery. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Food 2 Go - Ber's Bakery. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
