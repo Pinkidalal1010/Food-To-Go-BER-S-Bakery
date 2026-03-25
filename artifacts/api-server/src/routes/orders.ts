@@ -78,4 +78,23 @@ router.get("/orders/:id", authMiddleware, (req: AuthRequest, res) => {
   res.json(order);
 });
 
+router.patch("/orders/:id/cancel", authMiddleware, (req: AuthRequest, res) => {
+  const order = orders.find(o => o.id === req.params.id && o.userId === req.user!.userId);
+  if (!order) {
+    res.status(404).json({ error: "Not Found", message: "Order not found" });
+    return;
+  }
+  if (order.status === "shipped" || order.status === "delivered") {
+    res.status(400).json({ error: "Bad Request", message: "Cannot cancel an order that has already been shipped or delivered." });
+    return;
+  }
+  if (order.status === "cancelled") {
+    res.status(400).json({ error: "Bad Request", message: "Order is already cancelled." });
+    return;
+  }
+  order.status = "cancelled";
+  order.updatedAt = new Date().toISOString();
+  res.json(order);
+});
+
 export default router;
