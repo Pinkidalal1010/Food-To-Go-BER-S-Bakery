@@ -38,7 +38,13 @@ const testimonials = [
 ];
 
 export default function Home() {
-  const { data: featuredProducts, isLoading, isError } = useGetFeaturedProducts();
+  const { data, isLoading, isError } = useGetFeaturedProducts();
+
+  const featuredProducts = Array.isArray(data)
+  ? data
+  : Array.isArray((data as any)?.data)
+  ? (data as any).data
+  : [];
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -163,7 +169,7 @@ export default function Home() {
             </div>
           ) : featuredProducts?.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-              {featuredProducts.slice(0, 4).map((product) => (
+              {featuredProducts.slice(0, 4).map((product : any) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

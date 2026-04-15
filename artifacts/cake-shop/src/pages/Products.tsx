@@ -27,7 +27,8 @@ export default function Products() {
   if (sortBy) queryParams.sortBy = sortBy;
   queryParams.maxPrice = priceRange[1];
 
-  const { data: products, isLoading, isError } = useListProducts(queryParams);
+  const { data, isLoading, isError } = useListProducts(queryParams);
+  const products = Array.isArray(data?.data) ? data.data : [];
 
   const categories = [
     { id: "all", label: "All Products" },
@@ -170,7 +171,7 @@ export default function Products() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {products?.map((product) => (
+                {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
