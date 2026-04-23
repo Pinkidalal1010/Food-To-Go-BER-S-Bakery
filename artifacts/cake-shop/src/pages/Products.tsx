@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useListProducts } from "@workspace/api-client-react";
+import { useProducts } from "../hooks/useQueries";
 import { useLocation, useSearch } from "wouter";
 import { ProductCard } from "@/components/ProductCard";
 import { LoadingScreen } from "@/components/ui/loading";
@@ -27,8 +27,8 @@ export default function Products() {
   if (sortBy) queryParams.sortBy = sortBy;
   queryParams.maxPrice = priceRange[1];
 
-  const { data, isLoading, isError } = useListProducts(queryParams);
-  const products = Array.isArray(data?.data) ? data.data : [];
+  const { data, isLoading, isError } = useProducts(queryParams);
+  const products = Array.isArray(data) ? data : [];
 
   const categories = [
     { id: "all", label: "All Products" },

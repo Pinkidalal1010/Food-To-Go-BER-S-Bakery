@@ -4,6 +4,7 @@ export interface JwtPayload {
   userId: string;
   email: string;
   name: string;
+  role: string;
 }
 
 function base64UrlEncode(data: string): string {
@@ -45,7 +46,7 @@ export function verifyToken(token: string): JwtPayload | null {
     const payload = JSON.parse(base64UrlDecode(body));
     if (payload.exp && payload.exp < Date.now()) return null;
 
-    return { userId: payload.userId, email: payload.email, name: payload.name };
+    return { userId: payload.userId, email: payload.email, name: payload.name, role: payload.role };
   } catch {
     return null;
   }

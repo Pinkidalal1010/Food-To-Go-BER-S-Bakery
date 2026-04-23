@@ -1,9 +1,9 @@
 import { Link } from "wouter";
 import { Star, ShoppingCart } from "lucide-react";
-import type { Product } from "@workspace/api-client-react";
+// removed mock import
 import { useCart } from "@/contexts/CartContext";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: any }) {
   const { addToCart } = useCart();
 
   return (

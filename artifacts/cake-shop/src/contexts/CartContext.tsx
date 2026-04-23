@@ -1,10 +1,11 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import type { Product, CartItem } from "@workspace/api-client-react";
+import { createContext, useContext, useState, ReactNode } from "react";
+import { useCart as useCartQuery, useCartMutations } from "../hooks/useQueries";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "./AuthContext";
 
 interface CartContextType {
-  items: CartItem[];
-  addToCart: (product: Product, quantity: number) => void;
+  items: any[];
+  addToCart: (product: any, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -17,62 +18,56 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
-  });
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
+  
+  const { data: cartData } = useCartQuery();
+  const { addToCart: addMutation, updateQuantity: updateMutation, removeFromCart: removeMutation, clearCart: clearMutation } = useCartMutations();
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
-  }, [items]);
+  const items = cartData?.items || [];
 
-  const addToCart = (product: Product, quantity: number) => {
-    setItems(prev => {
-      const existing = prev.find(item => item.productId === product.id);
-      if (existing) {
-        return prev.map(item => 
-          item.productId === product.id 
-            ? { ...item, quantity: item.quantity + quantity, subtotal: (item.quantity + quantity) * product.price }
-            : item
-        );
+  const addToCart = (product: any, quantity: number) => {
+    if (!isAuthenticated) {
+      toast({
+        variant: "destructive",
+        title: "Sign in required",
+        description: "Please sign in to add items to your cart."
+      });
+      return;
+    }
+    addMutation.mutate({ productId: product.id, quantity }, {
+      onSuccess: () => {
+        setIsCartOpen(true);
+        toast({
+          title: "Added to cart",
+          description: `${quantity}x ${product.name} added to your cart.`
+        });
       }
-      return [...prev, {
-        productId: product.id,
-        product,
-        quantity,
-        subtotal: product.price * quantity
-      }];
-    });
-    
-    setIsCartOpen(true);
-    toast({
-      title: "Added to cart",
-      description: `${quantity}x ${product.name} added to your cart.`
     });
   };
 
   const removeFromCart = (productId: string) => {
-    setItems(prev => prev.filter(item => item.productId !== productId));
+    if (!isAuthenticated) return;
+    removeMutation.mutate(productId);
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
+    if (!isAuthenticated) return;
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
     }
-    setItems(prev => prev.map(item => 
-      item.productId === productId 
-        ? { ...item, quantity, subtotal: quantity * item.product.price }
-        : item
-    ));
+    updateMutation.mutate({ productId, quantity });
   };
 
-  const clearCart = () => setItems([]);
+  const clearCart = () => {
+    if (!isAuthenticated) return;
+    clearMutation.mutate();
+  };
 
-  const total = items.reduce((sum, item) => sum + item.subtotal, 0);
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const total = items.reduce((sum: number, item: any) => sum + item.subtotal, 0);
+  const itemCount = items.reduce((sum: number, item: any) => sum + item.quantity, 0);
 
   return (
     <CartContext.Provider value={{

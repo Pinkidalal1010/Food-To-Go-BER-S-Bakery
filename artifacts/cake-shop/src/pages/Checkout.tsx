@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
-import { useCreateOrder } from "@workspace/api-client-react";
+import { useOrderMutations } from "../hooks/useQueries";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,7 +87,7 @@ export default function Checkout() {
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
 
-  const createOrder = useCreateOrder();
+  const { createOrder } = useOrderMutations();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -112,7 +112,7 @@ export default function Checkout() {
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
-      const order = await createOrder.mutateAsync({ data: { ...data, paymentMethod: selectedPayment as any } });
+      const order = await createOrder.mutateAsync(data as any);
       clearCart();
       toast({ title: "Order placed successfully!", description: `Order #${order.id.slice(0, 8).toUpperCase()}` });
       setLocation(`/order-confirmation/${order.id}`);

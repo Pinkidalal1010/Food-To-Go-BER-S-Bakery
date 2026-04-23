@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "wouter";
-import { useGetProduct, useGetProductReviews } from "@workspace/api-client-react";
+import { useProduct, useProductReviews } from "../hooks/useQueries";
 import { useCart } from "@/contexts/CartContext";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
@@ -13,8 +13,8 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
-  const { data: product, isLoading, isError } = useGetProduct(id || "");
-  const { data: reviews } = useGetProductReviews(id || "");
+  const { data: product, isLoading, isError } = useProduct(id || "");
+  const { data: reviews } = useProductReviews(id || "");
 
   if (isLoading) return <LoadingScreen />;
   if (isError || !product) {
@@ -169,7 +169,7 @@ export default function ProductDetail() {
         
         {reviews?.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {reviews.map(review => (
+            {reviews.map((review: any) => (
               <div key={review.id} className="bg-card p-6 rounded-2xl border border-border shadow-sm">
                 <div className="flex items-center gap-1 mb-3">
                   {[1, 2, 3, 4, 5].map((s) => (

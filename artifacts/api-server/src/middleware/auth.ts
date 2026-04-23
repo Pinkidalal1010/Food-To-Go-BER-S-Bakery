@@ -36,3 +36,19 @@ export function optionalAuth(req: AuthRequest, _res: Response, next: NextFunctio
   }
   next();
 }
+
+export function isAdmin(req: AuthRequest, res: Response, next: NextFunction) {
+  if (!req.user || (req.user.role !== "admin" && req.user.role !== "superadmin")) {
+    res.status(403).json({ error: "Forbidden", message: "Admin access required" });
+    return;
+  }
+  next();
+}
+
+export function isSuperAdmin(req: AuthRequest, res: Response, next: NextFunction) {
+  if (!req.user || req.user.role !== "superadmin") {
+    res.status(403).json({ error: "Forbidden", message: "Superadmin access required" });
+    return;
+  }
+  next();
+}

@@ -1,5 +1,6 @@
 import { Link } from "wouter";
-import { useListOrders } from "@workspace/api-client-react";
+import { useOrders } from "../hooks/useQueries";
+import api from "../lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
@@ -20,9 +21,7 @@ import {
 
 export default function Orders() {
   const { isAuthenticated } = useAuth();
-  const { data: orders, isLoading, isError } = useListOrders({
-    query: { enabled: isAuthenticated }
-  });
+  const { data: orders, isLoading, isError } = useOrders();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [cancellingId, setCancellingId] = useState<string | null>(null);
@@ -31,20 +30,9 @@ export default function Orders() {
   const handleCancel = async (orderId: string) => {
     setCancellingId(orderId);
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`/api/orders/${orderId}/cancel`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Failed to cancel order");
-      }
+      await api.patch(`/orders/${orderId}/cancel`);
       toast({ title: "Order cancelled", description: "Your order has been cancelled successfully." });
-      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
     } catch (err: any) {
       toast({ variant: "destructive", title: "Cannot cancel", description: err.message });
     } finally {
@@ -100,7 +88,7 @@ export default function Orders() {
           </div>
         ) : (
           <div className="space-y-6">
-            {orders.map((order) => {
+            {orders.map((order: any) => {
               const date = new Date(order.createdAt).toLocaleDateString("en-GB", {
                 year: "numeric", month: "short", day: "numeric",
               });
@@ -138,7 +126,7 @@ export default function Orders() {
                   {/* Items preview */}
                   <div className="p-5">
                     <div className="flex flex-wrap gap-3 mb-5">
-                      {order.items.slice(0, 5).map((item) => (
+                      {order.items.slice(0, 5).map((item: any) => (
                         <div
                           key={item.productId}
                           className="flex items-center gap-2 bg-secondary/30 rounded-xl px-3 py-2 border border-border/40"

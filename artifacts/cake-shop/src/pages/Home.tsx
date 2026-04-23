@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Star, Award, Heart, Clock, Quote } from "lucide-react";
-import { useGetFeaturedProducts } from "@workspace/api-client-react";
+import { useFeaturedProducts } from "../hooks/useQueries";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading";
@@ -38,13 +38,9 @@ const testimonials = [
 ];
 
 export default function Home() {
-  const { data, isLoading, isError } = useGetFeaturedProducts();
+  const { data, isLoading, isError } = useFeaturedProducts();
 
-  const featuredProducts = Array.isArray(data)
-  ? data
-  : Array.isArray((data as any)?.data)
-  ? (data as any).data
-  : [];
+  const featuredProducts = Array.isArray(data) ? data : [];
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },

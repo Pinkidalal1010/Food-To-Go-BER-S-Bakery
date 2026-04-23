@@ -5,6 +5,8 @@ import authRouter from "./auth.js";
 import cartRouter from "./cart.js";
 import ordersRouter from "./orders.js";
 import reviewsRouter from "./reviews.js";
+import superAdminRouter from "./superadmin.js";
+import adminRouter from "./admin.js";
 
 const router: IRouter = Router();
 
@@ -14,5 +16,7 @@ router.use(authRouter);
 router.use(cartRouter);
 router.use(ordersRouter);
 router.use(reviewsRouter);
+router.use("/superadmin", superAdminRouter);
+router.use("/admin", adminRouter);
 
 export default router;

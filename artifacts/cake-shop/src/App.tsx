@@ -1,4 +1,3 @@
-import { setBaseUrl } from "@workspace/api-client-react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -19,6 +18,8 @@ import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import Orders from "./pages/Orders";
 import Auth from "./pages/Auth";
+import AdminPanel from "./pages/Admin";
+import SuperAdminPanel from "./pages/SuperAdmin";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -42,6 +43,8 @@ function Router() {
         <Route path="/order-confirmation/:id" component={OrderConfirmation} />
         <Route path="/orders" component={Orders} />
         <Route path="/auth" component={Auth} />
+        <Route path="/admin" component={AdminPanel} />
+        <Route path="/superadmin" component={SuperAdminPanel} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
@@ -49,7 +52,6 @@ function Router() {
 }
 
 function App() {
-  setBaseUrl(import.meta.env.VITE_API_URL);
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

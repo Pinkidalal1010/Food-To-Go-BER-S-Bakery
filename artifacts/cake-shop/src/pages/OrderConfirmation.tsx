@@ -1,5 +1,5 @@
 import { useParams, Link } from "wouter";
-import { useGetOrder } from "@workspace/api-client-react";
+import { useOrder } from "../hooks/useQueries";
 import { LoadingScreen } from "@/components/ui/loading";
 import { CheckCircle2, ArrowRight, Package, Truck, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function OrderConfirmation() {
   const { id } = useParams<{ id: string }>();
-  const { data: order, isLoading, isError } = useGetOrder(id || "");
+  const { data: order, isLoading, isError } = useOrder(id || "");
 
   if (isLoading) return <LoadingScreen />;
   if (isError || !order) return <div>Order not found</div>;
@@ -62,7 +62,7 @@ export default function OrderConfirmation() {
             <div>
               <h3 className="text-xl font-bold mb-6">Order Details</h3>
               <div className="space-y-4">
-                {order.items.map(item => (
+                {order.items.map((item: any) => (
                   <div key={item.productId} className="flex gap-4 items-center">
                     <div className="w-16 h-16 rounded-xl overflow-hidden bg-muted">
                       <img src={item.productImage} alt={item.productName} className="w-full h-full object-cover" />
